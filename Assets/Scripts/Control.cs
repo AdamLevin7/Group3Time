@@ -3,14 +3,8 @@ using UnityEngine;
 
 public class Control : MonoBehaviour
 {
-    private bool _lastSpace = false;
     public GameObject timer;
     public float incAmount;
-    private ITimerDisplay _timerControl;
-    private void Start()
-    {
-        _timerControl = timer.GetComponent<ITimerDisplay>();
-    }
 
     private void Update()
     {
@@ -18,8 +12,7 @@ public class Control : MonoBehaviour
         if (space)
         {
             Debug.Log("Space pressed");
-            _timerControl.Refill(incAmount);
+            GlobalState.instance.LevelTimer.Add(incAmount);
         }
-        _lastSpace = space;
     }
 }
