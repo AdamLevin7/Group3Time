@@ -1,5 +1,8 @@
-﻿public interface ICappableTimer : ITimer
+﻿namespace Abstraction
 {
-    void SetMaximum(float maximumTime);
-    double GetMaximum();
+    public interface ICappableTimer : ITimer
+    {
+        void SetMaximum(float maximumTime);
+        double GetMaximum();
+    }
 }

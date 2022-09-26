@@ -1,16 +1,14 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using Random = System.Random;
 
 public class CornerTimer : MonoBehaviour, ITimerDisplay
 {
     // Attach to the TMP Text object.
-    TextMeshProUGUI textMesh;
+    TextMeshProUGUI _textMesh;
 
     private float _currentTime;
     private Vector3 _basePos;
-    private float _bumpY = 0;
+    private float _bumpY;
     private ITimer _timer;
     
     // Start is called before the first frame update
@@ -18,7 +16,7 @@ public class CornerTimer : MonoBehaviour, ITimerDisplay
     {
         _bumpY = 0;
         _basePos = transform.position;
-        textMesh = GetComponent<TextMeshProUGUI>();
+        _textMesh = GetComponent<TextMeshProUGUI>();
         
         GlobalState.instance.timerDisplays.Add(this);
         GlobalState.instance.Synchronize();
@@ -42,7 +40,7 @@ public class CornerTimer : MonoBehaviour, ITimerDisplay
         
         _bumpY /= 1 + Time.deltaTime * 10;
         transform.position = _basePos + new Vector3(0, _bumpY, 0);
-        textMesh.text = _currentTime.ToString("0.00");
+        _textMesh.text = _currentTime.ToString("0.00");
     }
 
     public void SetReference(ITimer source)

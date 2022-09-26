@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace UtilComponents
 {
@@ -20,7 +19,7 @@ namespace UtilComponents
         public OverflowStrategy overflowMode;
         public OverflowStrategy underflowMode;
 
-        private bool _hasStarted = false;
+        private bool _hasStarted;
         
         private void Start()
         {
