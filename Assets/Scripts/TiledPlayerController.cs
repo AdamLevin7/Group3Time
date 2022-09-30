@@ -29,32 +29,32 @@ public class TiledPlayerController : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, new Vector3(actualPos.x, actualPos.y), lerpFactor * Time.deltaTime);
     }
 
-    private readonly KeyCode[] movementKeys = {KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D};
-    private static readonly IDictionary<KeyCode, string> keyToSprite = new Dictionary<KeyCode, string>();
-    private static readonly IDictionary<KeyCode, Vector2> keyToDirection = new Dictionary<KeyCode, Vector2>();
+    private static readonly KeyCode[] MovementKeys = {KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D};
+    private static readonly IDictionary<KeyCode, string> KeyToSprite = new Dictionary<KeyCode, string>();
+    private static readonly IDictionary<KeyCode, Vector2> KeyToDirection = new Dictionary<KeyCode, Vector2>();
 
     static TiledPlayerController()  // ooh static ctor
     {
-        keyToSprite.Add(KeyCode.W, "up");
-        keyToDirection.Add(KeyCode.W, Vector2.up);
-        keyToSprite.Add(KeyCode.S, "down");
-        keyToDirection.Add(KeyCode.S, Vector2.down);
-        keyToSprite.Add(KeyCode.A, "left");
-        keyToDirection.Add(KeyCode.A, Vector2.left);
-        keyToSprite.Add(KeyCode.D, "right");
-        keyToDirection.Add(KeyCode.D, Vector2.right);
+        KeyToSprite.Add(KeyCode.W, "up");
+        KeyToDirection.Add(KeyCode.W, Vector2.up);
+        KeyToSprite.Add(KeyCode.S, "down");
+        KeyToDirection.Add(KeyCode.S, Vector2.down);
+        KeyToSprite.Add(KeyCode.A, "left");
+        KeyToDirection.Add(KeyCode.A, Vector2.left);
+        KeyToSprite.Add(KeyCode.D, "right");
+        KeyToDirection.Add(KeyCode.D, Vector2.right);
     }
 
     private void Update()
     {
         Lerps();
-        foreach (var key in movementKeys)
+        foreach (var key in MovementKeys)
         {
             if (!Input.GetKeyDown(key)) continue;
-            _mapper.Switch(keyToSprite[key]);
+            _mapper.Switch(KeyToSprite[key]);
             // warp to prevent diagonal weirdness, TODO better solution, like input buffering?
             transform.position = new Vector3(actualPos.x, actualPos.y);
-            actualPos += keyToDirection[key];
+            actualPos += KeyToDirection[key];
         }
     }
 }
