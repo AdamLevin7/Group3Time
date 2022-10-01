@@ -20,7 +20,7 @@ public class TiledPlayerController : MonoBehaviour
         _mapper = GetComponent<SpriteMapper>();
     }
 
-    private void Lerps()
+    private void SmoothMoves()
     {
         transform.position = Vector3.Lerp(transform.position, new Vector3(actualPos.x, actualPos.y), lerpFactor * Time.deltaTime);
     }
@@ -43,7 +43,7 @@ public class TiledPlayerController : MonoBehaviour
 
     private void Update()
     {
-        Lerps();
+        SmoothMoves();
         foreach (var key in MovementKeys)
         {
             if (!Input.GetKeyDown(key)) continue;
