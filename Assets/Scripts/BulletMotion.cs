@@ -21,6 +21,16 @@ public class BulletMotion : MonoBehaviour
         MapNameToDirection.Add("right", Vector2.right);
     }
 
+    private void Start()
+    {
+        Invoke(nameof(SelfDestruct), 1);
+    }
+
+    private void SelfDestruct()
+    {
+        Destroy(gameObject);
+    }
+
     private void Update()
     {
         transform.Translate(MapNameToDirection[_direction]);

@@ -2861,8 +2861,8 @@ MonoBehaviour:
   cornerTimerText: {fileID: 1319028783}
   cornerShadingWhenOnTile: 0.2
   cornerShadingWhenOffTile: 1
-  centerShadingWhenOnTile: 0.5
-  centerShadingWhenOffTile: 0.2
+  centerShadingWhenOnTile: 1
+  centerShadingWhenOffTile: 0
 --- !u!1 &1010731820
 GameObject:
   m_ObjectHideFlags: 0
