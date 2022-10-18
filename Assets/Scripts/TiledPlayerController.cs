@@ -9,6 +9,7 @@ public class TiledPlayerController : MonoBehaviour
     
     public float lerpFactor; // per second
 
+    public string direction;
     // expects up, down, left, right
     private SpriteMapper _mapper;
     
@@ -49,6 +50,7 @@ public class TiledPlayerController : MonoBehaviour
             if (!Input.GetKeyDown(key)) continue;
             _mapper.Switch(KeyToSprite[key]);
             // warp to prevent diagonal weirdness, TODO better solution, like input buffering?
+            direction = KeyToSprite[key];
             transform.position = new Vector3(actualPos.x, actualPos.y);
             actualPos += KeyToDirection[key];
         }
