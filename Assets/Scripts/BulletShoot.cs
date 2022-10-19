@@ -22,7 +22,9 @@ public class BulletShoot : MonoBehaviour
         {
             var created = Instantiate(bulletPrefab);
             created.transform.position = transform.position;
+            created.transform.rotation = Data.MapDirectionNameToRotation[myController.direction];
             created.GetComponent<BulletMotion>().SetDirection(myController.direction);
+            
         }
         
     }

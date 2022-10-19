@@ -26,33 +26,17 @@ public class TiledPlayerController : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, new Vector3(actualPos.x, actualPos.y), lerpFactor * Time.deltaTime);
     }
 
-    private static readonly KeyCode[] MovementKeys = {KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D};
-    private static readonly IDictionary<KeyCode, string> KeyToSprite = new Dictionary<KeyCode, string>();
-    private static readonly IDictionary<KeyCode, Vector2> KeyToDirection = new Dictionary<KeyCode, Vector2>();
-
-    static TiledPlayerController()  // ooh static ctor
-    {
-        KeyToSprite.Add(KeyCode.W, "up");
-        KeyToDirection.Add(KeyCode.W, Vector2.up);
-        KeyToSprite.Add(KeyCode.S, "down");
-        KeyToDirection.Add(KeyCode.S, Vector2.down);
-        KeyToSprite.Add(KeyCode.A, "left");
-        KeyToDirection.Add(KeyCode.A, Vector2.left);
-        KeyToSprite.Add(KeyCode.D, "right");
-        KeyToDirection.Add(KeyCode.D, Vector2.right);
-    }
-
     private void Update()
     {
         SmoothMoves();
-        foreach (var key in MovementKeys)
+        foreach (var key in Data.MovementKeys)
         {
             if (!Input.GetKeyDown(key)) continue;
-            _mapper.Switch(KeyToSprite[key]);
+            _mapper.Switch(Data.KeyToSprite[key]);
             // warp to prevent diagonal weirdness, TODO better solution, like input buffering?
-            direction = KeyToSprite[key];
+            direction = Data.KeyToSprite[key];
             transform.position = new Vector3(actualPos.x, actualPos.y);
-            actualPos += KeyToDirection[key];
+            actualPos += Data.KeyToDirection[key];
         }
     }
 }
