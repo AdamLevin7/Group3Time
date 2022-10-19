@@ -30,6 +30,7 @@ public class GlobalState : MonoBehaviour
     }
 
     public IList<ITimerDisplay> timerDisplays = new List<ITimerDisplay>();
+    public static Camera mainCamera;
 
     private void Start()
     {
@@ -40,10 +41,17 @@ public class GlobalState : MonoBehaviour
         LevelTimer.SetTimeScale(timerSpeed);
         
         LevelTimer.Start();
+        GetCamera();
     }
 
     private void Update()
     {
         LevelTimer.Update();
+    }
+    
+    private void GetCamera()
+    {
+        mainCamera = Camera.main;
+        if (mainCamera == null) Invoke(nameof(GetCamera), 0.1f);
     }
 }

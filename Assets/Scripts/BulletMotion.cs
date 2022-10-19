@@ -22,4 +22,10 @@ public class BulletMotion : MonoBehaviour
     {
         transform.Translate(Vector2.right * (Time.deltaTime * bulletSpeed));
     }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        Destroy(col.gameObject);
+        SelfDestruct();
+    }
 }

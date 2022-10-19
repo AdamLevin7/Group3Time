@@ -16,12 +16,16 @@ public class BulletShoot : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0))  // [0 | 2] left/right; 1 = depress scroll wheel
         {
+            if (!GlobalState.mainCamera) return;
+            var mousePosition = GlobalState.mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            var direction = mousePosition - transform.position;
+            var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             var created = Instantiate(bulletPrefab);
             created.transform.position = transform.position;
             Debug.Log(_myController.direction);
-            created.transform.rotation = Data.MapDirectionNameToRotation[_myController.direction];
+            created.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             created.GetComponent<BulletMotion>().SetDirection(_myController.direction);
             
         }
