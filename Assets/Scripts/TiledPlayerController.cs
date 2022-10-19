@@ -8,7 +8,7 @@ public class TiledPlayerController : MonoBehaviour
     
     public float lerpFactor; // per second
 
-    public string direction;
+    public string direction = "right";
     // expects up, down, left, right
     private SpriteMapper _mapper;
     

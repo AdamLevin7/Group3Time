@@ -21,6 +21,6 @@ public class BulletMotion : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(Data.MapDirectionNameToVector[_direction]);
+        transform.Translate(Data.MapDirectionNameToVector[_direction] * Time.deltaTime);
     }
 }
