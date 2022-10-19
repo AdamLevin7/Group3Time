@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UtilComponents;
 
 public class TiledPlayerController : MonoBehaviour

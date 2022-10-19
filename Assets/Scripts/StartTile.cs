@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UtilComponents;
 
 public class StartTile : MonoBehaviour
