@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class BulletMotion : MonoBehaviour
 {
-    private string _direction;
+    public float bulletSpeed;
 
     public void SetDirection(string direction)
     {
-        _direction = direction;
     }
 
     private void Start()
@@ -21,6 +20,6 @@ public class BulletMotion : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(Data.MapDirectionNameToVector[_direction] * Time.deltaTime);
+        transform.Translate(Vector2.right * (Time.deltaTime * bulletSpeed));
     }
 }

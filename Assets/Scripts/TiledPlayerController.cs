@@ -14,6 +14,7 @@ public class TiledPlayerController : MonoBehaviour
     
     private void Start()
     {
+        direction = "right";  // Sheesh Unity stop overwriting my public variables
         var localTransform = transform;
         localTransform.position = new Vector3(startTilePos.x + 0.5f, startTilePos.y + 0.5f);
         actualPos = localTransform.position;
