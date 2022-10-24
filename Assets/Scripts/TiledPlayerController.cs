@@ -5,8 +5,12 @@ public class TiledPlayerController : MonoBehaviour
 {
     public Vector2Int startTilePos;
     public Vector2 actualPos;
-    
-    public float lerpFactor; // per second
+    private bool _keydown;
+    private ITimer _timer;
+
+    private float elapsed = 0.0f;
+
+    public float lerpFactor = 10.0f; // per second
 
     public string direction = "right";
     // expects up, down, left, right
@@ -31,12 +35,22 @@ public class TiledPlayerController : MonoBehaviour
         SmoothMoves();
         foreach (var key in Data.MovementKeys)
         {
-            if (!Input.GetKeyDown(key)) continue;
-            _mapper.Switch(Data.KeyToSprite[key]);
-            // warp to prevent diagonal weirdness, TODO better solution, like input buffering?
-            direction = Data.KeyToSprite[key];
-            transform.position = new Vector3(actualPos.x, actualPos.y);
-            actualPos += Data.KeyToDirection[key];
+
+            if (!Input.GetKey(key)) {
+                elapsed = Time.deltaTime;
+                continue;
+            }
+            if (Input.GetKey(key) && elapsed <= 0.01f) {
+                _mapper.Switch(Data.KeyToSprite[key]);
+                // warp to prevent diagonal weirdness, TODO better solution, like input buffering?
+                direction = Data.KeyToSprite[key];
+                transform.position = new Vector3(actualPos.x, actualPos.y);
+                actualPos += Data.KeyToDirection[key];
+            }
+
+            if (elapsed >= 0.5f) {
+                elapsed = 0.0f;
+            }
         }
     }
 }
