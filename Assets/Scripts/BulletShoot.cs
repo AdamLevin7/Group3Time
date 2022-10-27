@@ -23,6 +23,7 @@ public class BulletShoot : MonoBehaviour
             var direction = mousePosition - transform.position;
             var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             var created = Instantiate(bulletPrefab);
+            // ReSharper disable once Unity.InefficientPropertyAccess
             created.transform.position = transform.position;
             Debug.Log(_myController.direction);
             created.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
