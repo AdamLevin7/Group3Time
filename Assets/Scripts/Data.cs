@@ -5,23 +5,18 @@ public static class Data
 {
     static Data()
     {
-        KeyToSprite.Add(KeyCode.W, "up");
-        KeyToDirection.Add(KeyCode.W, Vector2.up);
-        KeyToSprite.Add(KeyCode.S, "down");
-        KeyToDirection.Add(KeyCode.S, Vector2.down);
-        KeyToSprite.Add(KeyCode.A, "left");
-        KeyToDirection.Add(KeyCode.A, Vector2.left);
-        KeyToSprite.Add(KeyCode.D, "right");
-        KeyToDirection.Add(KeyCode.D, Vector2.right);
-
-        MapDirectionNameToRotation.Add("up", Quaternion.Euler(0, 0, 90));
-        MapDirectionNameToRotation.Add("down", Quaternion.Euler(0, 0, -90));
-        MapDirectionNameToRotation.Add("left", Quaternion.Euler(0, 0, 180));
-        MapDirectionNameToRotation.Add("right", Quaternion.Euler(0, 0, 0));
+        KeyToDirectionName.Add(KeyCode.W, "up");
+        DirectionNameToDirectionVector.Add("up", Vector2.up);
+        KeyToDirectionName.Add(KeyCode.S, "down");
+        DirectionNameToDirectionVector.Add("down", Vector2.down);
+        KeyToDirectionName.Add(KeyCode.A, "left");
+        DirectionNameToDirectionVector.Add("left", Vector2.left);
+        KeyToDirectionName.Add(KeyCode.D, "right");
+        DirectionNameToDirectionVector.Add("right", Vector2.right);
     }
 
     public static readonly KeyCode[] MovementKeys = {KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D};
-    public static readonly IDictionary<KeyCode, string> KeyToSprite = new Dictionary<KeyCode, string>();
-    public static readonly IDictionary<KeyCode, Vector2> KeyToDirection = new Dictionary<KeyCode, Vector2>();
-    public static readonly IDictionary<string, Quaternion> MapDirectionNameToRotation = new Dictionary<string, Quaternion>();
+    public static readonly IDictionary<KeyCode, string> KeyToDirectionName = new Dictionary<KeyCode, string>();
+    public static readonly IDictionary<string, Vector2> DirectionNameToDirectionVector =
+        new Dictionary<string, Vector2>();
 }
