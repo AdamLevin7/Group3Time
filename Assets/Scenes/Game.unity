@@ -457,9 +457,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startTilePos: {x: 0, y: 0}
-  actualPos: {x: 0, y: 0}
-  lerpFactor: 100
-  direction: 
+  moveSpeed: 0.1
+  lastDirection: right
 --- !u!114 &356200467
 MonoBehaviour:
   m_ObjectHideFlags: 0

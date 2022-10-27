@@ -4,52 +4,71 @@ using UtilComponents;
 public class TiledPlayerController : MonoBehaviour
 {
     public Vector2Int startTilePos;
-    public Vector2 actualPos;
+    public float moveSpeed = 10f; // seconds per tile
+    private float _movStartTime;
+    private Vector2 _movStartPos;
+    private Vector2 _movEndPos;
     private bool _keydown;
 
-    private float elapsed = 0.0f;
+    public string lastDirection = "right";
+    private string _direction = "";
 
-    public float lerpFactor = 10.0f; // per second
-
-    public string direction = "right";
+    private string _buffered = "";
     // expects up, down, left, right
     private SpriteMapper _mapper;
     
     private void Start()
     {
-        direction = "right";  // Sheesh Unity stop overwriting my public variables
+        lastDirection = "right";  // Sheesh Unity stop overwriting my public variables
         var localTransform = transform;
         localTransform.position = new Vector3(startTilePos.x + 0.5f, startTilePos.y + 0.5f);
-        actualPos = localTransform.position;
+        _movEndPos = localTransform.position;
         _mapper = GetComponent<SpriteMapper>();
     }
 
-    private void SmoothMoves()
+    private void Interpolate()
     {
-        transform.position = Vector3.Lerp(transform.position, new Vector3(actualPos.x, actualPos.y), lerpFactor * Time.deltaTime);
+        if (_direction == "") return;
+        var c = (Time.time - _movStartTime) / moveSpeed;
+        transform.position = Vector2.Lerp(_movStartPos, _movEndPos, c);
+        if (c >= 1f) NextDirection();
+    }
+
+    private void NextDirection()
+    {
+        _direction = _buffered;
+        _buffered = "";
+        if (_direction == "") return;
+        ProcessDirectionChange();
     }
 
     private void Update()
     {
-        SmoothMoves();
+        Interpolate(); // handles animation and buffering queue
         foreach (var key in Data.MovementKeys)
         {
-
-            if (!Input.GetKey(key)) {
-                elapsed = Time.deltaTime;
-                continue;
-            }
-            if (Input.GetKey(key) && elapsed <= 0.01f) {
-                _mapper.Switch(Data.KeyToSprite[key]);
-                // warp to prevent diagonal weirdness, TODO better solution, like input buffering?
-                direction = Data.KeyToSprite[key];
-                transform.position = new Vector3(actualPos.x, actualPos.y);
-                actualPos += Data.KeyToDirection[key];
-            }
-
-            if (elapsed >= 0.5f) {
-                elapsed = 0.0f;
+            // buffer if: key is down and not the current direction
+            if (Input.GetKey(key)) {
+                if (_direction == "")
+                {
+                    _direction = Data.KeyToDirectionName[key];
+                    ProcessDirectionChange();
+                }
+                else if (_direction != Data.KeyToDirectionName[key])
+                {
+                    _buffered = Data.KeyToDirectionName[key]; // buffer the next direction, overwrite if needed
+                }
+                else { /* TODO figure this out */}
             }
         }
+    }
+
+    private void ProcessDirectionChange()
+    {
+        lastDirection = _direction;
+        _mapper.Switch(_direction);
+        _movStartPos = transform.position;
+        _movEndPos = _movStartPos + Data.DirectionNameToDirectionVector[_direction];
+        _movStartTime = Time.time;
     }
 }

@@ -25,9 +25,9 @@ public class BulletShoot : MonoBehaviour
             var created = Instantiate(bulletPrefab);
             // ReSharper disable once Unity.InefficientPropertyAccess
             created.transform.position = transform.position;
-            Debug.Log(_myController.direction);
+            Debug.Log(_myController.lastDirection);
             created.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            created.GetComponent<BulletMotion>().SetDirection(_myController.direction);
+            created.GetComponent<BulletMotion>().SetDirection(_myController.lastDirection);
             
         }
         
