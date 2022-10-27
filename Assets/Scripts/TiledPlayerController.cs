@@ -6,7 +6,6 @@ public class TiledPlayerController : MonoBehaviour
     public Vector2Int startTilePos;
     public Vector2 actualPos;
     private bool _keydown;
-    private ITimer _timer;
 
     private float elapsed = 0.0f;
 
