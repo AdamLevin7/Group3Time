@@ -41,6 +41,7 @@ public class StartTile : MonoBehaviour
         GlobalState.instance.LevelTimer.Start();
         _sttFader.FadeTo(centerShadingWhenOffTile, 2f);
         _cttFader.FadeTo(cornerShadingWhenOffTile, 0.5f);
+        Destroy(gameObject);
     }
 
     private void Update()

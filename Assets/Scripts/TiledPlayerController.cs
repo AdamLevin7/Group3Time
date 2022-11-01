@@ -4,7 +4,7 @@ using UtilComponents;
 public class TiledPlayerController : MonoBehaviour
 {
     public Vector2Int startTilePos;
-    public float moveSpeed = 10f; // seconds per tile
+    public float moveSpeed = 0.1f; // seconds per tile, straight
     private float _movStartTime;
     private Vector2 _movStartPos;
     private Vector2 _movEndPos;
@@ -13,13 +13,12 @@ public class TiledPlayerController : MonoBehaviour
     public string lastDirection = "right";
     private string _direction = "";
 
-    private string _buffered = "";
     // expects up, down, left, right
     private SpriteMapper _mapper;
-    
+
     private void Start()
     {
-        lastDirection = "right";  // Sheesh Unity stop overwriting my public variables
+        lastDirection = "right"; // Sheesh Unity stop overwriting my public variables
         var localTransform = transform;
         localTransform.position = new Vector3(startTilePos.x + 0.5f, startTilePos.y + 0.5f);
         _movEndPos = localTransform.position;
@@ -28,47 +27,38 @@ public class TiledPlayerController : MonoBehaviour
 
     private void Interpolate()
     {
+        var d = (_movEndPos - _movStartPos).magnitude;
         if (_direction == "") return;
-        var c = (Time.time - _movStartTime) / moveSpeed;
+        var c = (Time.time - _movStartTime) / (moveSpeed * d);
         transform.position = Vector2.Lerp(_movStartPos, _movEndPos, c);
         if (c >= 1f) NextDirection();
     }
 
     private void NextDirection()
     {
-        _direction = _buffered;
-        _buffered = "";
-        if (_direction == "") return;
-        ProcessDirectionChange();
+        _direction = "";
     }
 
     private void Update()
     {
         Interpolate(); // handles animation and buffering queue
+        var motion = Vector2.zero;
+        var direction = "";
         foreach (var key in Data.MovementKeys)
         {
-            // buffer if: key is down and not the current direction
-            if (Input.GetKey(key)) {
-                if (_direction == "")
-                {
-                    _direction = Data.KeyToDirectionName[key];
-                    ProcessDirectionChange();
-                }
-                else if (_direction != Data.KeyToDirectionName[key])
-                {
-                    _buffered = Data.KeyToDirectionName[key]; // buffer the next direction, overwrite if needed
-                }
-                else { /* TODO figure this out */}
-            }
+            if (!Input.GetKey(key)) continue;
+            direction = Data.KeyToDirectionName[key];
+            motion += Data.DirectionNameToDirectionVector[direction];
         }
-    }
 
-    private void ProcessDirectionChange()
-    {
-        lastDirection = _direction;
-        _mapper.Switch(_direction);
-        _movStartPos = transform.position;
-        _movEndPos = _movStartPos + Data.DirectionNameToDirectionVector[_direction];
-        _movStartTime = Time.time;
+        if (_direction == "" && direction != "")
+        {
+            _direction = direction;
+            lastDirection = _direction;
+            _mapper.Switch(_direction);
+            _movStartPos = transform.position;
+            _movEndPos = _movStartPos + motion;
+            _movStartTime = Time.time;
+        }
     }
 }
